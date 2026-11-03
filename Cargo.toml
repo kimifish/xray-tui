@@ -1,0 +1,26 @@
+[package]
+name = "xray-tui"
+version = "0.1.0"
+edition = "2024"
+description = "A local-first terminal control panel for Xray and systemd"
+license = "MIT"
+
+[dependencies]
+anyhow = "1"
+base64 = "0.22"
+clap = { version = "4", features = ["derive"] }
+crossterm = "0.29"
+jsonc-parser = { version = "0.34", features = ["cst", "serde_json"] }
+ratatui = "0.30"
+reqwest = { version = "0.12", default-features = false, features = ["blocking", "json", "rustls-tls", "socks"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+sha2 = "0.10"
+shell-words = "1"
+tempfile = "3"
+url = "2"
+zip = { version = "2", default-features = false, features = ["deflate"] }
+
+[profile.release]
+lto = "thin"
+strip = true

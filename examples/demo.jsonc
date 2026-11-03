@@ -1,0 +1,22 @@
+{
+  // This fixture contains no real endpoints or credentials.
+  "log": { "loglevel": "warning" },
+  "inbounds": [
+    { "tag": "local-socks", "listen": "127.0.0.1", "port": 10808, "protocol": "socks", "settings": { "udp": true } },
+    { "tag": "local-http", "listen": "127.0.0.1", "port": 10809, "protocol": "http" }
+  ],
+  "outbounds": [
+    { "tag": "aurora", "protocol": "vless", "settings": { "vnext": [{ "address": "edge.example.com", "port": 443, "users": [{ "id": "00000000-0000-0000-0000-000000000001", "encryption": "none" }] }] }, "streamSettings": { "network": "tcp", "security": "tls", "tlsSettings": { "serverName": "edge.example.com" } } },
+    { "tag": "direct", "protocol": "freedom" },
+    { "tag": "block", "protocol": "blackhole" },
+    { "tag": "backup", "protocol": "trojan", "settings": { "servers": [{ "address": "backup.example.com", "port": 443, "password": "example-only" }] } }
+  ],
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      { "type": "field", "ruleTag": "Local network", "ip": ["geoip:private"], "outboundTag": "direct" },
+      { "type": "field", "ruleTag": "Work domains", "domain": ["domain:example.org"], "outboundTag": "aurora" },
+      { "type": "field", "ruleTag": "Block ads", "domain": ["geosite:category-ads-all"], "outboundTag": "block" }
+    ]
+  }
+}

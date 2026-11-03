@@ -1,0 +1,14 @@
+/target/
+/.codebase-memory/
+*.tmp
+__pycache__/
+*.py[cod]
+
+# Local configuration and runtime data can contain credentials.
+/config.json
+/config.jsonc
+/config.local.*
+/.env
+/.env.*
+/backups/
+/health-*.json
